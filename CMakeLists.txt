@@ -17,6 +17,10 @@ set(CMAKE_CXX_STANDARD 11)
 # declare yor project
 project(${project_name})
 
+#global package usage
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIR})
+
 # global include path setting
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(include)
@@ -31,5 +35,10 @@ add_library(example SHARED src/package_name/module_name/example.cpp)
 
 # add example_app
 add_executable(example_app src/package_name/app_name/example_app.cpp)
-target_link_libraries(example_app PUBLIC example)
+target_link_libraries(example_app PUBLIC 
+    example
+    ${GTEST_LIBRARIES}
+    ${GTEST_MAIN_LIBRARIES}    
+    pthread
+)
 add_dependencies(example_app example)
